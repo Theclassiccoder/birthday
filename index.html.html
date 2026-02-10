@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Happy Birthday Disha ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: radial-gradient(circle at bottom, #1b0033, #000);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+            color: white;
+        }
+
+        h1 {
+            margin-top: 30px;
+            font-size: 40px;
+        }
+
+        p {
+            font-size: 22px;
+            margin-top: 10px;
+        }
+
+        button {
+            font-size: 22px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 12px;
+            background: #ff2e63;
+            color: white;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        /* Cake */
+        .cake {
+            margin: 40px auto;
+            width: 200px;
+            animation: bounce 2s infinite;
+        }
+
+        .layer {
+            height: 45px;
+            background: #ff8fab;
+            border-radius: 10px;
+            margin: 6px 0;
+        }
+
+        .candle {
+            width: 10px;
+            height: 30px;
+            background: #fff;
+            margin: auto;
+            position: relative;
+        }
+
+        .flame {
+            width: 14px;
+            height: 14px;
+            background: orange;
+            border-radius: 50%;
+            position: absolute;
+            top: -14px;
+            left: -2px;
+            animation: flicker 0.4s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<h1>🎉 Happy Birthday Disha ❤️ 🎉</h1>
+<p>A very happy birthday babes. love you ❤️</p>
+
+<div class="cake">
+    <div class="candle">
+        <div class="flame"></div>
+    </div>
+    <div class="layer"></div>
+    <div class="layer"></div>
+    <div class="layer"></div>
+</div>
+
+<button onclick="startCelebration()">Tap for Fireworks 🎆</button>
+
+<audio id="song">
+    <source src="desi-girl-song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+function Firework(x, y) {
+    for (let i = 0; i < 80; i++) {
+        particles.push({
+            x: x,
+            y: y,
+            angle: Math.random() * 2 * Math.PI,
+            speed: Math.random() * 5 + 2,
+            radius: 2,
+            life: 60,
+            color: `hsl(${Math.random() * 360}, 100%, 60%)`
+        });
+    }
+}
+
+function animateFireworks() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((p, index) => {
+        p.x += Math.cos(p.angle) * p.speed;
+        p.y += Math.sin(p.angle) * p.speed;
+        p.life--;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        if (p.life <= 0) particles.splice(index, 1);
+    });
+    requestAnimationFrame(animateFireworks);
+}
+
+function startCelebration() {
+    document.getElementById("song").play();
+    setInterval(() => {
+        Firework(
+            Math.random() * canvas.width,
+            Math.random() * canvas.height / 2
+        );
+    }, 600);
+}
+
+animateFireworks();
+</script>
+
+</body>
+</html>
